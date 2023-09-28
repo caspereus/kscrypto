@@ -1,20 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Provider from './src/providers/Provider';
+import HomeScreen from './src/screens/HomeScreen';
+import DetailAssetScreen from './src/screens/DetailAssetScreen';
+
+export type RootStackParams = {
+  Home: undefined;
+  DetailAsset: undefined
+};
 
 export default function App() {
+  const Stack = createNativeStackNavigator<RootStackParams>();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="DetailAsset" component={DetailAssetScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </Provider>
   );
 }
