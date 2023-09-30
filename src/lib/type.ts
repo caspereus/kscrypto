@@ -1,5 +1,10 @@
+import { DetailCoinScreenProps } from '../screens/DetailCoinScreen';
+
 export type RootStackParams = {
-  navigate: any;
   Home: undefined;
-  DetailAsset: undefined
+  DetailCoin: {
+    id: string;
+    name: string;
+    symbol: string;
+  }
 };

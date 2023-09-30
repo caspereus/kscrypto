@@ -1,12 +1,25 @@
-import { HStack, Icon, Text } from "@gluestack-ui/themed";
+import { HStack, Text, VStack, styled } from "@gluestack-ui/themed";
 import { CommonActions, useNavigation } from "@react-navigation/native";
-import { ArrowLeft } from 'lucide-react-native';
+import { ArrowLeft, Bookmark } from 'lucide-react-native';
 import { TouchableOpacity } from "react-native";
+import Separator from "./Separator";
 
 export type NavigationBarProps = {
   title?: string;
   onBack?: () => void;
 }
+
+const BackIcon = styled(ArrowLeft, {
+  height: "$5",
+  width: "$5",
+  color: "$black"
+})
+
+const BookmarkIcon = styled(Bookmark, {
+  height: "$5",
+  width: "$5",
+  color: "$black"
+})
 
 export default function NavigationBar({ title, onBack }: NavigationBarProps) {
   const navigation = useNavigation()
@@ -29,14 +42,24 @@ export default function NavigationBar({ title, onBack }: NavigationBarProps) {
   }
 
   return (
-    <HStack backgroundColor="$white" padding="$4" alignItems="center" justifyContent="space-between">
-      <TouchableOpacity onPress={onBackPressed}>
-        <Icon as={ArrowLeft} w="$6" h="$6" />
-      </TouchableOpacity>
-      <Text color="$black" bold>
-        {title}
-      </Text>
-      <HStack minWidth="$6" />
-    </HStack>
+    <VStack>
+      <HStack
+        backgroundColor="$white"
+        alignItems="center"
+        justifyContent="space-between"
+        paddingHorizontal="$4"
+        paddingVertical="$4">
+        <TouchableOpacity onPress={onBackPressed}>
+          <BackIcon />
+        </TouchableOpacity>
+        <Text color="$black" bold>
+          {title}
+        </Text>
+        <HStack minWidth="$6">
+          <BookmarkIcon />
+        </HStack>
+      </HStack>
+      <Separator />
+    </VStack>
   )
 }

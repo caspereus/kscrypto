@@ -1,1 +1,1 @@
-export * from './money-formatter'
+export * from './number-formatter'
