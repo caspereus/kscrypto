@@ -8,18 +8,14 @@ import { useGetCoinsQuery } from '../module/coins/hooks/useGetCoinsQuery';
 import { type CoinEntity } from '../module/coins/entities/coinEntities';
 import { AppConfig } from '../lib/config';
 import ErrorModal from '../components/shared/ErrorModal';
+import { mapCoinToEntity } from '../module/coins/mapper/coinMapper';
 
 export default function HomeScreen() {
   const getCoinQuery = useGetCoinsQuery({ currency: AppConfig.currency });
 
-  const coins = useMemo((): CoinEntity[] => getCoinQuery.data?.map((item) => ({
-    id: item.id,
-    name: item.name,
-    price: item.current_price,
-    symbol: item.symbol,
-    icon: item.image,
-    percentage: item.price_change_percentage_24h,
-  })) ?? [], [getCoinQuery.data]);
+  const coins = useMemo((): CoinEntity[] => {
+    return getCoinQuery.data?.map(mapCoinToEntity) ?? []
+  }, [getCoinQuery.data, mapCoinToEntity]);
 
   const renderFooterComponent = () => (
     <VStack>
