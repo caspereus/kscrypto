@@ -1,5 +1,5 @@
 import {
-  Button, ButtonText, HStack, ScrollView, VStack, Text, Image,
+  Button, ButtonText, HStack, ScrollView, VStack, Text, Image, useToast, styled,
 } from '@gluestack-ui/themed';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CandlestickChart } from 'react-native-wagmi-charts';
@@ -17,14 +17,30 @@ import PercentageBadge from '../components/shared/PercentageBadge';
 import useTicker from '../module/ticker/hooks/useTicker';
 import Separator from '../components/shared/Separator';
 import OrderBook from '../components/detail/OrderBookList';
+import { Share, Star } from 'lucide-react-native';
 
 export type DetailCoinScreenProps = NativeStackScreenProps<
-RootStackParams,
-'DetailCoin'
+  RootStackParams,
+  'DetailCoin'
 >;
+
+
+const ShareIcon = styled(Share, {
+  height: '$5',
+  width: '$5',
+  color: '$black',
+});
+
+const StarIcon = styled(Star, {
+  height: '$5',
+  width: '$5',
+  color: '$black',
+});
 
 export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
   const { name, id, symbol } = route.params;
+
+  const toast = useToast();
 
   const getCoinQuery = useGetCoinsQuery({
     currency: AppConfig.currency,
@@ -52,7 +68,15 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
 
   return (
     <VStack flex={1} backgroundColor="$white">
-      <NavigationBar title={name} />
+      <NavigationBar
+        title={name}
+        rightComponent={
+          <HStack space="sm">
+            <ShareIcon />
+            <StarIcon />
+          </HStack>
+        }
+      />
       <VStack flex={1}>
         {getCoinQuery.isLoading ? (
           <VStack padding="$4">
@@ -75,6 +99,11 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
             </HStack>
             <Separator />
             <VStack backgroundColor="$white" paddingVertical="$4">
+              <Text
+                bold
+                color="$black"
+                paddingHorizontal="$4">{name} Daily Chart
+              </Text>
               {getChartQuery.isLoading ? <ActivityIndicator /> : (
                 <CandlestickChart.Provider data={charts}>
                   <CandlestickChart>

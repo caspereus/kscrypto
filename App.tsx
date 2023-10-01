@@ -5,9 +5,12 @@ import type { RootStackParams } from './src/lib/type';
 import Provider from './src/providers/Provider';
 import HomeScreen from './src/screens/HomeScreen';
 import DetailCoinScreen from './src/screens/DetailCoinScreen';
+import { LogBox } from 'react-native';
 
 export default function App() {
   const Stack = createNativeStackNavigator<RootStackParams>();
+
+  LogBox.ignoreAllLogs();
 
   return (
     <Provider>

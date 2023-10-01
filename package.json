@@ -19,6 +19,7 @@
     "@gluestack-style/react": "^0.2.51",
     "@gluestack-ui/themed": "^0.1.53",
     "@react-native-community/eslint-config": "^3.2.0",
+    "@react-native-community/netinfo": "9.3.10",
     "@react-navigation/bottom-tabs": "^6.4.3",
     "@react-navigation/material-top-tabs": "^6.4.0",
     "@react-navigation/native": "^6.0.16",

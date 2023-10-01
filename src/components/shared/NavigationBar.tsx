@@ -2,13 +2,15 @@ import {
   HStack, Text, VStack, styled,
 } from '@gluestack-ui/themed';
 import { CommonActions, useNavigation } from '@react-navigation/native';
-import { ArrowLeft, Bookmark } from 'lucide-react-native';
+import { ArrowLeft, Bookmark, Share, ShareIcon } from 'lucide-react-native';
 import { TouchableOpacity } from 'react-native';
 import Separator from './Separator';
+import { ReactNode } from 'react';
 
 export interface NavigationBarProps {
   title?: string;
   onBack?: () => void;
+  rightComponent?: ReactNode;
 }
 
 const BackIcon = styled(ArrowLeft, {
@@ -17,13 +19,7 @@ const BackIcon = styled(ArrowLeft, {
   color: '$black',
 });
 
-const BookmarkIcon = styled(Bookmark, {
-  height: '$5',
-  width: '$5',
-  color: '$black',
-});
-
-export default function NavigationBar({ title, onBack }: NavigationBarProps) {
+export default function NavigationBar({ title, onBack, rightComponent }: NavigationBarProps) {
   const navigation = useNavigation();
   const onBackPressed = () => {
     if (onBack !== undefined) {
@@ -61,7 +57,7 @@ export default function NavigationBar({ title, onBack }: NavigationBarProps) {
           {title}
         </Text>
         <HStack minWidth="$6">
-          <BookmarkIcon />
+          {rightComponent}
         </HStack>
       </HStack>
       <Separator />

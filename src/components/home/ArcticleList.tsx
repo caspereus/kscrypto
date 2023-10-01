@@ -3,7 +3,7 @@ import { FlashList } from '@shopify/flash-list';
 import { useCallback } from 'react';
 import ArticleItem, { type ArticleItemProps } from './ArticleItem';
 
-export interface ArticleListProps {
+export type ArticleListProps = {
   data: ArticleItemProps[]
 }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { type ChartOhlcListModel, ChartOhlcListModelSchema } from '../model/chartModel';
 
-interface GetChartOhlcParams {
+type GetChartOhlcParams = {
   id: string;
   currency: string;
   days: number;

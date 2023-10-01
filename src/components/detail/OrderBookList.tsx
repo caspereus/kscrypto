@@ -6,7 +6,7 @@ import useOrderBook from '../../module/ticker/hooks/useOrderBook';
 import { AppConfig } from '../../lib/config';
 import { type DepthItemEntity } from '../../module/order-book/entities/orderBookEntities';
 
-export interface OrderBookProps {
+export type OrderBookProps = {
   symbol: string
 }
 

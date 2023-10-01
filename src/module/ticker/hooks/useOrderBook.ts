@@ -3,7 +3,7 @@ import throttle from 'lodash/throttle';
 import { type DepthDataEntity, DepthSocketDataSchema } from '../../order-book/entities/orderBookEntities';
 import { mapDepthSocketDataToEntity } from '../../order-book/mapper/orderBookMapper';
 
-export interface UseOrderBookProps {
+export type UseOrderBookProps = {
   currency: string;
   symbol: string;
   isEnabled?: boolean;

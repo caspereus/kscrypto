@@ -1,6 +1,6 @@
 import { VStack, Image, Text } from '@gluestack-ui/themed';
 
-export interface ArticleItemProps {
+export type ArticleItemProps = {
   data: {
     thumbnail: string;
     title: string;
