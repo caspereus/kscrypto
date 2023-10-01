@@ -1,6 +1,6 @@
-# KSCrypto App Documentation
+# KSCrypto App
 
-Welcome to the documentation for the KSCrypto App, a powerful cryptocurrency application that provides access to real-time data, market information, and more. This document will help you navigate and understand the various aspects of the app.
+KSCrypto App, a cryptocurrency application that was built using React Native, to display a list of top 10 cryptocurrencies coin realtime.
 
 ## API & Web Socket Stream
 
@@ -23,7 +23,7 @@ The KSCrypto App is built with several packages and libraries to enhance its fun
 
 - **Expo:** A platform for building cross-platform mobile apps.
 
-- **Gluestack UI:** A Native Base alternative for building intuitive user interfaces.
+- **Gluestack UI:** A universal UI library that provides optionally styled and accessible components. These components are designed for easy integration into applications developed with React and React Native.
 
 - **Axios:** A popular JavaScript library for making HTTP requests.
 
@@ -40,10 +40,13 @@ The KSCrypto App is built with several packages and libraries to enhance its fun
 - **Shopify Flashlist:** A library or component used for flash notifications.
 
 ## Previews
-Here are some previews of the KSCrypto App to give you a glimpse of its user interface:
+Here are some previews of the KSCrypto App:
 
 | Home | Detail Coin | Order Book |
 |---|---|---|
 | ![Home Page](screenshots/ss1.png) | ![Detail Coin Page](screenshots/ss2.png)  | ![Order Book Page](screenshots/ss3.png)  |
 
-Feel free to explore the app and leverage the provided API and WebSocket streams to access real-time cryptocurrency data and enhance your trading and investment experience. If you have any questions or need further assistance, please refer to the documentation or contact our support team. Happy trading!
+## Download
+### Expo
+<img src="screenshots/download-qr.png"  width="200px" height="200px">
+
