@@ -7,7 +7,6 @@ import Header from '../components/home/Header';
 import { useGetCoinsQuery } from '../module/coins/hooks/useGetCoinsQuery';
 import { type CoinEntity } from '../module/coins/entities/coinEntities';
 import { AppConfig } from '../lib/config';
-import { AxiosError } from 'axios';
 import ErrorModal from '../components/shared/ErrorModal';
 
 export default function HomeScreen() {
@@ -30,7 +29,7 @@ export default function HomeScreen() {
         padding="$4"
         bold
       >
-        Artikel Terkini
+        Latest Articles
       </Text>
       <ArticleList data={[
         {

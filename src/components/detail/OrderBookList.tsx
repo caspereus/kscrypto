@@ -41,7 +41,7 @@ function OrderBook({ symbol }: OrderBookProps) {
       <Text color="$black" size="md" bold>Order Book</Text>
       <HStack space="sm">
         <VStack flex={1} space="sm">
-          <Text color="$black" size="sm" bold>Beli</Text>
+          <Text color="$black" size="sm" bold>Bid</Text>
           <VStack space="sm" backgroundColor="$green50" borderRadius="$sm">
             <FlashList
               data={bids}
@@ -54,7 +54,7 @@ function OrderBook({ symbol }: OrderBookProps) {
           </VStack>
         </VStack>
         <VStack flex={1} space="sm">
-          <Text color="$black" size="sm" bold>Jual</Text>
+          <Text color="$black" size="sm" bold>Ask</Text>
           <VStack backgroundColor="$red50" space="sm" borderRadius="$sm">
             <FlashList
               data={asks}
