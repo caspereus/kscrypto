@@ -26,7 +26,9 @@ const BookmarkIcon = styled(Bookmark, {
 export default function NavigationBar({ title, onBack }: NavigationBarProps) {
   const navigation = useNavigation();
   const onBackPressed = () => {
-    onBack && onBack();
+    if (onBack !== undefined) {
+      onBack();
+    }
 
     if (navigation.canGoBack()) {
       navigation.goBack();

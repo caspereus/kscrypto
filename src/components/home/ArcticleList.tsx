@@ -12,7 +12,7 @@ export default function ArticleList({ data }: ArticleListProps) {
     <Pressable>
       <ArticleItem {...item} />
     </Pressable>
-  ), [data]);
+  ), []);
 
   const renderSeparator = () => <VStack width="$2" />;
 

@@ -20,7 +20,7 @@ export function suffixedNumber(num: number, precision: number = 2) {
   ];
 
   const found = map.find((x) => Math.abs(num) >= x.threshold);
-  if (found) {
+  if (found !== undefined) {
     const formatted = (num / found.threshold).toFixed(precision) + found.suffix;
     return formatted;
   }

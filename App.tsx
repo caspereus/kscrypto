@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { type RootStackParams } from './src/lib/type';
+import type { RootStackParams } from './src/lib/type';
 import Provider from './src/providers/Provider';
 import HomeScreen from './src/screens/HomeScreen';
 import DetailCoinScreen from './src/screens/DetailCoinScreen';

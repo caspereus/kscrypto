@@ -21,7 +21,10 @@ export default function useTicker({
     if (isEnabled) {
       const webSocket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}${currency}@ticker`);
 
-      webSocket.onopen = () => { console.log('Connection open: ', `${symbol.toLowerCase()}${currency}`); };
+      if (onConnectionOpen !== undefined) {
+        webSocket.onopen = onConnectionOpen;
+      }
+
       webSocket.onmessage = throttle((e) => {
         const socketTickerDataValidate = SocketTickerDataSchema.validate(JSON.parse(e.data));
         if (socketTickerDataValidate.success) {
@@ -32,11 +35,11 @@ export default function useTicker({
         }
       }, 5000);
 
-      if (onConnectionError) {
+      if (onConnectionError !== undefined) {
         webSocket.onerror = onConnectionError;
       }
 
-      if (onConnectionClose) {
+      if (onConnectionClose !== undefined) {
         webSocket.onclose = onConnectionClose;
       }
 
@@ -44,7 +47,9 @@ export default function useTicker({
         webSocket.close();
       };
     }
-  }, [isEnabled, currency, symbol]);
+
+    return () => { };
+  }, [isEnabled, currency, symbol, onConnectionOpen, onConnectionClose, onConnectionError]);
 
   return { socketTicker };
 }

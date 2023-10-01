@@ -21,14 +21,15 @@ export default function useOrderBook({
     if (isEnabled) {
       const webSocket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}${currency}@depth@1000ms`);
 
-      webSocket.onopen = () => { console.log('Connection open: ', `${symbol.toLowerCase()}${currency}`); };
+      if (onConnectionOpen !== undefined) {
+        webSocket.onopen = onConnectionOpen;
+      }
 
       webSocket.onmessage = throttle((e) => {
         const depthSocketDataValidate = DepthSocketDataSchema.validate(JSON.parse(e.data));
         if (depthSocketDataValidate.success) {
           const depthEntity = mapDepthSocketDataToEntity(depthSocketDataValidate.value);
 
-          // const bids =  : []
           setDepthSocket((prev) => ({
             bids: depthEntity.bids.length > 0 ? depthEntity.bids : prev?.bids ?? [],
             asks: depthEntity.asks.length > 0 ? depthEntity.asks : prev?.asks ?? [],
@@ -38,11 +39,11 @@ export default function useOrderBook({
         }
       }, 5000);
 
-      if (onConnectionError) {
+      if (onConnectionError !== undefined) {
         webSocket.onerror = onConnectionError;
       }
 
-      if (onConnectionClose) {
+      if (onConnectionClose !== undefined) {
         webSocket.onclose = onConnectionClose;
       }
 
@@ -50,7 +51,9 @@ export default function useOrderBook({
         webSocket.close();
       };
     }
-  }, [isEnabled, currency, symbol]);
+
+    return () => { };
+  }, [isEnabled, currency, symbol, onConnectionOpen, onConnectionClose, onConnectionError]);
 
   return { depthSocket };
 }

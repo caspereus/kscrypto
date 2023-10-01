@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList, type FlatListProps, TouchableOpacity } from 'react-native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { type RootStackParams } from '../../lib/type';
+import type { RootStackParams } from '../../lib/type';
 import { type CoinEntity } from '../../module/coins/entities/coinEntities';
 import Separator from '../shared/Separator';
 import CoinItem, { type CoinItemProps } from './CoinItem';
@@ -37,15 +37,18 @@ const LiveCoinItem = memo(({ data }: LiveCoinItemProps) => {
 
 export default function CoinList({ data, ...restProps }: CoinListProps) {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParams>>();
-  const navigateToDetailAsset = ({ id, symbol, name }: CoinEntity) => {
-    navigation.navigate('DetailCoin', { id, symbol, name });
-  };
 
-  const renderItem = useCallback(({ item }: { item: CoinEntity }) => (
-    <TouchableOpacity onPress={() => { navigateToDetailAsset(item); }}>
-      <LiveCoinItem data={item} />
-    </TouchableOpacity>
-  ), [data]);
+  const renderItem = useCallback(({ item }: { item: CoinEntity }) => {
+    const navigateToDetailAsset = ({ id, symbol, name }: CoinEntity) => {
+      navigation.navigate('DetailCoin', { id, symbol, name });
+    };
+
+    return (
+      <TouchableOpacity onPress={() => { navigateToDetailAsset(item); }}>
+        <LiveCoinItem data={item} />
+      </TouchableOpacity>
+    );
+  }, [navigation]);
 
   const renderSeparator = () => <Separator />;
 

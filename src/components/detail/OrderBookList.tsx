@@ -22,14 +22,14 @@ function OrderBook({ symbol }: OrderBookProps) {
       <Text size="xs" color="$red600" bold>{item.priceLevel}</Text>
       <Text size="xs" color="$black">{item.quantity}</Text>
     </HStack>
-  ), [symbol]);
+  ), []);
 
   const renderBidItem = useCallback(({ item }: { item: DepthItemEntity }) => (
     <HStack justifyContent="space-between" p="$1">
       <Text size="xs" color="$black">{item.quantity}</Text>
       <Text size="xs" color="$green600" bold>{item.priceLevel}</Text>
     </HStack>
-  ), [symbol]);
+  ), []);
 
   const bids = depthSocket?.bids.splice(0, 10);
   const asks = depthSocket?.bids.splice(0, 10);

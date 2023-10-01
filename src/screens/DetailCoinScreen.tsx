@@ -1,12 +1,12 @@
 import {
-  Button, ButtonText, HStack, ScrollView, VStack, Text, Image, Alert, AlertText,
+  Button, ButtonText, HStack, ScrollView, VStack, Text, Image,
 } from '@gluestack-ui/themed';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CandlestickChart } from 'react-native-wagmi-charts';
 import { useMemo } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { formatMoney } from '../lib/util';
-import { type RootStackParams } from '../lib/type';
+import type { RootStackParams } from '../lib/type';
 import { useGetCoinsQuery } from '../module/coins/hooks/useGetCoinsQuery';
 import { AppConfig } from '../lib/config';
 import { useGetChartQuery } from '../module/chart/hooks/useGetCandleQuery';

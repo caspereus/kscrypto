@@ -3,10 +3,6 @@ import {
 } from '@gluestack-ui/themed';
 import { ChevronsUpDown, Percent } from 'lucide-react-native';
 
-export interface CapsuleProps {
-
-}
-
 export default function Capsule() {
   return (
     <VStack>

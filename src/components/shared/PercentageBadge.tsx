@@ -1,11 +1,11 @@
 import { Text, HStack, Icon } from '@gluestack-ui/themed';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react-native';
 
-export interface PercentageBadge {
+export interface PercentageBadgeProps {
   percentage: number
 }
 
-export default function PercentageBadge({ percentage }: PercentageBadge) {
+export default function PercentageBadge({ percentage }: PercentageBadgeProps) {
   const isNetral = percentage === 0;
   const isUp = percentage > 0;
 
