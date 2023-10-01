@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
-import { DepthDataEntity, DepthSocketDataSchema } from "../../../module/order-book/entities/orderBookEntities";
-import { mapDepthSocketDataToEntity } from "../../../module/order-book/mapper/orderBookMapper";
+import { useEffect, useState } from 'react';
 import throttle from 'lodash/throttle';
+import { type DepthDataEntity, DepthSocketDataSchema } from '../../order-book/entities/orderBookEntities';
+import { mapDepthSocketDataToEntity } from '../../order-book/mapper/orderBookMapper';
 
-
-
-
-export type UseOrderBookProps = {
+export interface UseOrderBookProps {
   currency: string;
   symbol: string;
   isEnabled?: boolean;
@@ -15,25 +12,26 @@ export type UseOrderBookProps = {
   onConnectionClose?: (event: CloseEvent) => void;
 }
 
-
-export default function useOrderBook({ currency, symbol, onConnectionOpen, onConnectionError, onConnectionClose, isEnabled = false }: UseOrderBookProps) {
-  const [depthSocket, setDepthSocket] = useState<DepthDataEntity>()
+export default function useOrderBook({
+  currency, symbol, onConnectionOpen, onConnectionError, onConnectionClose, isEnabled = false,
+}: UseOrderBookProps) {
+  const [depthSocket, setDepthSocket] = useState<DepthDataEntity>();
 
   useEffect(() => {
     if (isEnabled) {
       const webSocket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}${currency}@depth@1000ms`);
 
-      webSocket.onopen = () => console.log('Connection open: ', `${symbol.toLowerCase()}${currency}`)
+      webSocket.onopen = () => { console.log('Connection open: ', `${symbol.toLowerCase()}${currency}`); };
 
       webSocket.onmessage = throttle((e) => {
         const depthSocketDataValidate = DepthSocketDataSchema.validate(JSON.parse(e.data));
         if (depthSocketDataValidate.success) {
-          const depthEntity = mapDepthSocketDataToEntity(depthSocketDataValidate.value)
+          const depthEntity = mapDepthSocketDataToEntity(depthSocketDataValidate.value);
 
           // const bids =  : []
           setDepthSocket((prev) => ({
             bids: depthEntity.bids.length > 0 ? depthEntity.bids : prev?.bids ?? [],
-            asks: depthEntity.asks.length > 0 ? depthEntity.asks : prev?.asks ?? []
+            asks: depthEntity.asks.length > 0 ? depthEntity.asks : prev?.asks ?? [],
           }));
         } else {
           webSocket.close();
@@ -41,18 +39,18 @@ export default function useOrderBook({ currency, symbol, onConnectionOpen, onCon
       }, 5000);
 
       if (onConnectionError) {
-        webSocket.onerror = onConnectionError
+        webSocket.onerror = onConnectionError;
       }
 
       if (onConnectionClose) {
-        webSocket.onclose = onConnectionClose
+        webSocket.onclose = onConnectionClose;
       }
 
       return () => {
-        webSocket.close()
-      }
+        webSocket.close();
+      };
     }
-  }, [isEnabled, currency, symbol])
+  }, [isEnabled, currency, symbol]);
 
-  return { depthSocket }
+  return { depthSocket };
 }

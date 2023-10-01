@@ -1,4 +1,4 @@
-export type ChartOhlcEntity = {
+export interface ChartOhlcEntity {
   timestamp: number;
   open: number;
   high: number;

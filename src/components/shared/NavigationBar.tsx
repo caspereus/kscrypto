@@ -1,33 +1,35 @@
-import { HStack, Text, VStack, styled } from "@gluestack-ui/themed";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import {
+  HStack, Text, VStack, styled,
+} from '@gluestack-ui/themed';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { ArrowLeft, Bookmark } from 'lucide-react-native';
-import { TouchableOpacity } from "react-native";
-import Separator from "./Separator";
+import { TouchableOpacity } from 'react-native';
+import Separator from './Separator';
 
-export type NavigationBarProps = {
+export interface NavigationBarProps {
   title?: string;
   onBack?: () => void;
 }
 
 const BackIcon = styled(ArrowLeft, {
-  height: "$5",
-  width: "$5",
-  color: "$black"
-})
+  height: '$5',
+  width: '$5',
+  color: '$black',
+});
 
 const BookmarkIcon = styled(Bookmark, {
-  height: "$5",
-  width: "$5",
-  color: "$black"
-})
+  height: '$5',
+  width: '$5',
+  color: '$black',
+});
 
 export default function NavigationBar({ title, onBack }: NavigationBarProps) {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const onBackPressed = () => {
-    onBack && onBack()
+    onBack && onBack();
 
     if (navigation.canGoBack()) {
-      navigation.goBack()
+      navigation.goBack();
       return;
     }
 
@@ -37,9 +39,9 @@ export default function NavigationBar({ title, onBack }: NavigationBarProps) {
         routes: [
           { name: 'Home' },
         ],
-      })
+      }),
     );
-  }
+  };
 
   return (
     <VStack>
@@ -48,7 +50,8 @@ export default function NavigationBar({ title, onBack }: NavigationBarProps) {
         alignItems="center"
         justifyContent="space-between"
         paddingHorizontal="$4"
-        paddingVertical="$4">
+        paddingVertical="$4"
+      >
         <TouchableOpacity onPress={onBackPressed}>
           <BackIcon />
         </TouchableOpacity>
@@ -61,5 +64,5 @@ export default function NavigationBar({ title, onBack }: NavigationBarProps) {
       </HStack>
       <Separator />
     </VStack>
-  )
+  );
 }

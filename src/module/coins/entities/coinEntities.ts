@@ -1,4 +1,4 @@
-export type CoinEntity = {
+export interface CoinEntity {
   id: string;
   name: string;
   symbol: string;

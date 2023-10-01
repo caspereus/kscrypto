@@ -1,30 +1,26 @@
-import { HStack, Pressable, VStack } from "@gluestack-ui/themed"
-import { FlashList } from "@shopify/flash-list"
-import { useCallback } from "react"
-import ArticleItem, { ArticleItemProps } from "./ArticleItem"
+import { HStack, Pressable, VStack } from '@gluestack-ui/themed';
+import { FlashList } from '@shopify/flash-list';
+import { useCallback } from 'react';
+import ArticleItem, { type ArticleItemProps } from './ArticleItem';
 
-export type ArticleListProps = {
+export interface ArticleListProps {
   data: ArticleItemProps[]
 }
 
 export default function ArticleList({ data }: ArticleListProps) {
-  const renderItem = useCallback(({ item }: { item: ArticleItemProps }) => {
-    return (
-      <Pressable>
-        <ArticleItem {...item} />
-      </Pressable>
-    )
-  }, [data])
+  const renderItem = useCallback(({ item }: { item: ArticleItemProps }) => (
+    <Pressable>
+      <ArticleItem {...item} />
+    </Pressable>
+  ), [data]);
 
-  const renderSeparator = () => {
-    return <VStack width="$2" />
-  }
+  const renderSeparator = () => <VStack width="$2" />;
 
   return (
     <HStack flex={1}>
       <FlashList
         data={data}
-        horizontal={true}
+        horizontal
         renderItem={renderItem}
         estimatedItemSize={10}
         ListHeaderComponent={renderSeparator}
@@ -33,5 +29,5 @@ export default function ArticleList({ data }: ArticleListProps) {
         keyExtractor={(item, index) => `${item.data}.${index}`}
       />
     </HStack>
-  )
+  );
 }

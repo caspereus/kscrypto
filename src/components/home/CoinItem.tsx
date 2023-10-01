@@ -1,12 +1,14 @@
-import type { ComponentProps } from "react";
-import { HStack, Image, Text, VStack } from "@gluestack-ui/themed";
-import { formatMoney } from "../../lib/util";
-import PercentageBadge from "../shared/PercentageBadge";
-import { CoinEntity } from '../../module/coins/entities/coinEntities';
+import type { ComponentProps } from 'react';
+import {
+  HStack, Image, Text, VStack,
+} from '@gluestack-ui/themed';
+import { formatMoney } from '../../lib/util';
+import PercentageBadge from '../shared/PercentageBadge';
+import { type CoinEntity } from '../../module/coins/entities/coinEntities';
 
 export type CoinItemProps = ComponentProps<typeof HStack> & {
   data: CoinEntity
-}
+};
 
 export default function CoinItem({ data, ...restProps }: CoinItemProps) {
   return (
@@ -15,7 +17,8 @@ export default function CoinItem({ data, ...restProps }: CoinItemProps) {
       paddingHorizontal="$4"
       paddingVertical="$2"
       backgroundColor="$white"
-      justifyContent="space-between">
+      justifyContent="space-between"
+    >
       <HStack alignItems="center" space="lg">
         <Image source={{ uri: data.icon }} size="xs" alt={data.name} />
         <VStack>
@@ -34,5 +37,5 @@ export default function CoinItem({ data, ...restProps }: CoinItemProps) {
         <PercentageBadge percentage={data.percentage} />
       </VStack>
     </HStack>
-  )
+  );
 }

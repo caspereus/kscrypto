@@ -1,6 +1,6 @@
-import { VStack, Image, Text } from "@gluestack-ui/themed";
+import { VStack, Image, Text } from '@gluestack-ui/themed';
 
-export type ArticleItemProps = {
+export interface ArticleItemProps {
   data: {
     thumbnail: string;
     title: string;
@@ -15,7 +15,8 @@ export default function ArticleItem({ data }: ArticleItemProps) {
       borderWidth="$1"
       borderColor="$coolGray200"
       width="$40"
-      borderRadius="$sm">
+      borderRadius="$sm"
+    >
       <Image
         source={{ uri: data.thumbnail }}
         resizeMode="cover"
@@ -28,9 +29,10 @@ export default function ArticleItem({ data }: ArticleItemProps) {
         bold
         isTruncated={false}
         numberOfLines={2}
-        ellipsizeMode='tail'>
+        ellipsizeMode="tail"
+      >
         {data.title}
       </Text>
     </VStack>
-  )
+  );
 }

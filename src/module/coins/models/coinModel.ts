@@ -3,10 +3,10 @@ import * as rt from 'runtypes';
 export const CurrencyModelSchema = rt.Union(
   rt.Literal('btc'),
   rt.Literal('usd'),
-  rt.Literal('eth')
+  rt.Literal('eth'),
 );
 
-export type CurrencyModel = rt.Static<typeof CurrencyModelSchema>
+export type CurrencyModel = rt.Static<typeof CurrencyModelSchema>;
 
 export const RoiModelSchema = rt.Record({
   times: rt.Number,
@@ -45,9 +45,8 @@ export const CoinModelSchema = rt.Record({
   last_updated: rt.String,
 });
 
-export type CoinModel = rt.Static<typeof CoinModelSchema>
+export type CoinModel = rt.Static<typeof CoinModelSchema>;
 
-export const CoinListModelSchema = rt.Array(CoinModelSchema)
+export const CoinListModelSchema = rt.Array(CoinModelSchema);
 
-export type CoinListModel = rt.Static<typeof CoinListModelSchema>
-
+export type CoinListModel = rt.Static<typeof CoinListModelSchema>;

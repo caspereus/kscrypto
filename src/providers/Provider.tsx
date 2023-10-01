@@ -1,15 +1,14 @@
-import * as React from "react";
-import { GluestackUIProvider, config } from "@gluestack-ui/themed"
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { QueryClient, QueryClientProvider } from "react-query";
+import * as React from 'react';
+import { GluestackUIProvider, config } from '@gluestack-ui/themed';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
-type ProviderProps = {
+interface ProviderProps {
   children: React.ReactNode | React.ReactNode[]
 }
 
 export default function Provider({ children }: ProviderProps) {
   const queryClient = new QueryClient();
-
 
   return (
     <GluestackUIProvider config={config.theme}>
@@ -19,5 +18,5 @@ export default function Provider({ children }: ProviderProps) {
         </SafeAreaProvider>
       </QueryClientProvider>
     </GluestackUIProvider>
-  )
+  );
 }

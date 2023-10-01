@@ -1,4 +1,4 @@
-import { AppConfig } from "../config";
+import { AppConfig } from '../config';
 
 export function formatMoney(amount: number): string {
   const formattedAmount = new Intl.NumberFormat('en-US', {

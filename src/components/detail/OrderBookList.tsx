@@ -1,45 +1,40 @@
-import { VStack, Text, HStack } from "@gluestack-ui/themed"
-import useOrderBook from "../../module/ticker/hooks/useOrderBook"
-import { AppConfig } from "../../lib/config"
-import { FlashList } from "@shopify/flash-list"
-import { memo, useCallback } from "react"
-import { DepthItemEntity } from "../../module/order-book/entities/orderBookEntities"
-import { ActivityIndicator, FlatList } from "react-native"
+import { VStack, Text, HStack } from '@gluestack-ui/themed';
+import { FlashList } from '@shopify/flash-list';
+import { memo, useCallback } from 'react';
+import { ActivityIndicator } from 'react-native';
+import useOrderBook from '../../module/ticker/hooks/useOrderBook';
+import { AppConfig } from '../../lib/config';
+import { type DepthItemEntity } from '../../module/order-book/entities/orderBookEntities';
 
-export type OrderBookProps = {
+export interface OrderBookProps {
   symbol: string
 }
 
 function OrderBook({ symbol }: OrderBookProps) {
   const { depthSocket } = useOrderBook({
     currency: AppConfig.currencyAlias,
-    symbol: symbol,
-    isEnabled: true
-  })
+    symbol,
+    isEnabled: true,
+  });
 
-  const renderAskItem = useCallback(({ item }: { item: DepthItemEntity }) => {
-    return (
-      <HStack justifyContent="space-between" p="$1">
-        <Text size="xs" color="$red600" bold>{item.priceLevel}</Text>
-        <Text size="xs" color="$black">{item.quantity}</Text>
-      </HStack>
-    )
-  }, [symbol])
+  const renderAskItem = useCallback(({ item }: { item: DepthItemEntity }) => (
+    <HStack justifyContent="space-between" p="$1">
+      <Text size="xs" color="$red600" bold>{item.priceLevel}</Text>
+      <Text size="xs" color="$black">{item.quantity}</Text>
+    </HStack>
+  ), [symbol]);
 
-  const renderBidItem = useCallback(({ item }: { item: DepthItemEntity }) => {
-    return (
-      <HStack justifyContent="space-between" p="$1">
-        <Text size="xs" color="$black">{item.quantity}</Text>
-        <Text size="xs" color="$green600" bold>{item.priceLevel}</Text>
-      </HStack>
-    )
-  }, [symbol])
+  const renderBidItem = useCallback(({ item }: { item: DepthItemEntity }) => (
+    <HStack justifyContent="space-between" p="$1">
+      <Text size="xs" color="$black">{item.quantity}</Text>
+      <Text size="xs" color="$green600" bold>{item.priceLevel}</Text>
+    </HStack>
+  ), [symbol]);
 
+  const bids = depthSocket?.bids.splice(0, 10);
+  const asks = depthSocket?.bids.splice(0, 10);
 
-  const bids = depthSocket?.bids.splice(0, 10)
-  const asks = depthSocket?.bids.splice(0, 10)
-
-  const renderEmptyState = () => <ActivityIndicator />
+  const renderEmptyState = () => <ActivityIndicator />;
 
   return (
     <VStack padding="$4" backgroundColor="$white" space="sm">
@@ -52,7 +47,7 @@ function OrderBook({ symbol }: OrderBookProps) {
               data={bids}
               renderItem={renderBidItem}
               keyExtractor={(item) => item.priceLevel.toString()}
-              nestedScrollEnabled={true}
+              nestedScrollEnabled
               estimatedItemSize={10}
               ListEmptyComponent={renderEmptyState()}
             />
@@ -65,7 +60,7 @@ function OrderBook({ symbol }: OrderBookProps) {
               data={asks}
               renderItem={renderAskItem}
               keyExtractor={(item) => item.priceLevel.toString()}
-              nestedScrollEnabled={true}
+              nestedScrollEnabled
               estimatedItemSize={10}
               ListEmptyComponent={renderEmptyState()}
             />
@@ -73,7 +68,7 @@ function OrderBook({ symbol }: OrderBookProps) {
         </VStack>
       </HStack>
     </VStack>
-  )
+  );
 }
 
 export default memo(OrderBook);

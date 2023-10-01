@@ -1,4 +1,4 @@
-import { SocketTickerDataEntity, TickerDataEntity } from "../entities/tickerEntities";
+import { type SocketTickerDataEntity, type TickerDataEntity } from '../entities/tickerEntities';
 
 export const mapSocketTickerToEntity = (m: SocketTickerDataEntity): TickerDataEntity => ({
   eventType: m.e,

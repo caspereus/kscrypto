@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { SocketTickerDataSchema, TickerDataEntity } from "../entities/tickerEntities";
-import { mapSocketTickerToEntity } from "../mapper/tickerMapper";
+import { useEffect, useState } from 'react';
 import throttle from 'lodash/throttle';
+import { SocketTickerDataSchema, type TickerDataEntity } from '../entities/tickerEntities';
+import { mapSocketTickerToEntity } from '../mapper/tickerMapper';
 
-export type UseTickerProps = {
+export interface UseTickerProps {
   currency: string;
   symbol: string;
   isEnabled?: boolean;
@@ -12,38 +12,39 @@ export type UseTickerProps = {
   onConnectionClose?: (event: CloseEvent) => void;
 }
 
-
-export default function useTicker({ currency, symbol, onConnectionOpen, onConnectionError, onConnectionClose, isEnabled = false }: UseTickerProps) {
-  const [socketTicker, setSocketTicker] = useState<TickerDataEntity>()
+export default function useTicker({
+  currency, symbol, onConnectionOpen, onConnectionError, onConnectionClose, isEnabled = false,
+}: UseTickerProps) {
+  const [socketTicker, setSocketTicker] = useState<TickerDataEntity>();
 
   useEffect(() => {
     if (isEnabled) {
       const webSocket = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}${currency}@ticker`);
 
-      webSocket.onopen = () => console.log('Connection open: ', `${symbol.toLowerCase()}${currency}`)
+      webSocket.onopen = () => { console.log('Connection open: ', `${symbol.toLowerCase()}${currency}`); };
       webSocket.onmessage = throttle((e) => {
         const socketTickerDataValidate = SocketTickerDataSchema.validate(JSON.parse(e.data));
         if (socketTickerDataValidate.success) {
-          const ticker = mapSocketTickerToEntity(socketTickerDataValidate.value)
+          const ticker = mapSocketTickerToEntity(socketTickerDataValidate.value);
           setSocketTicker(ticker);
         } else {
-          webSocket.close()
+          webSocket.close();
         }
       }, 5000);
 
       if (onConnectionError) {
-        webSocket.onerror = onConnectionError
+        webSocket.onerror = onConnectionError;
       }
 
       if (onConnectionClose) {
-        webSocket.onclose = onConnectionClose
+        webSocket.onclose = onConnectionClose;
       }
 
       return () => {
-        webSocket.close()
-      }
+        webSocket.close();
+      };
     }
-  }, [isEnabled, currency, symbol])
+  }, [isEnabled, currency, symbol]);
 
-  return { socketTicker }
+  return { socketTicker };
 }

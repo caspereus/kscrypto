@@ -1,8 +1,7 @@
-
 import axios from 'axios';
-import { CoinListModel, CoinListModelSchema } from '../models/coinModel';
+import { type CoinListModel, CoinListModelSchema } from '../models/coinModel';
 
-type GetCoinListParam = {
+interface GetCoinListParam {
   currency: string;
   ids?: string;
 }
@@ -11,17 +10,19 @@ export async function getCoinList({ currency, ids }: GetCoinListParam): Promise<
   try {
     const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets', {
       params: {
-        'vs_currency': currency,
-        'ids': ids,
-      }
-    })
+        page: 1,
+        per_page: 10,
+        vs_currency: currency,
+        ids,
+      },
+    });
 
     const validationResult = CoinListModelSchema.validate(response.data);
     if (validationResult.success) {
       return validationResult.value;
     }
 
-    throw new Error('Decode Error')
+    throw new Error('Decode Error');
   } catch (e) {
     throw e;
   }

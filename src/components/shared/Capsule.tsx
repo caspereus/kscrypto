@@ -1,7 +1,9 @@
-import { HStack, Icon, Text, VStack } from "@gluestack-ui/themed"
-import { ChevronsUpDown, Percent } from "lucide-react-native"
+import {
+  HStack, Icon, Text, VStack,
+} from '@gluestack-ui/themed';
+import { ChevronsUpDown, Percent } from 'lucide-react-native';
 
-export type CapsuleProps = {
+export interface CapsuleProps {
 
 }
 
@@ -14,11 +16,12 @@ export default function Capsule() {
         borderWidth="$1"
         paddingHorizontal="$2"
         paddingVertical="$1"
-        borderRadius="$full">
+        borderRadius="$full"
+      >
         <Icon as={Percent} w="$5" h="$5" />
         <Text color="$black" size="sm" bold>Perubahan 24 Jam</Text>
         <Icon as={ChevronsUpDown} w="$5" h="$5" />
       </HStack>
     </VStack>
-  )
+  );
 }

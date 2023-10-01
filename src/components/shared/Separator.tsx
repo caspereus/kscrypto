@@ -1,5 +1,5 @@
-import { HStack } from "@gluestack-ui/themed";
+import { HStack } from '@gluestack-ui/themed';
 
 export default function Separator() {
-  return <HStack borderTopWidth="$1" borderTopColor="$coolGray100" />
+  return <HStack borderTopWidth="$1" borderTopColor="$coolGray100" />;
 }

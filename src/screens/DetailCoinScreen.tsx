@@ -1,55 +1,54 @@
-import { Button, ButtonText, HStack, ScrollView, VStack, Text, Image, Alert, AlertText } from "@gluestack-ui/themed";
-import { formatMoney } from "../lib/util";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParams } from '../lib/type';
+import {
+  Button, ButtonText, HStack, ScrollView, VStack, Text, Image, Alert, AlertText,
+} from '@gluestack-ui/themed';
+import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { CandlestickChart } from 'react-native-wagmi-charts';
-import { useMemo } from "react";
-import { useGetCoinsQuery } from "../module/coins/hooks/useGetCoinsQuery";
-import { AppConfig } from "../lib/config";
-import { ActivityIndicator } from "react-native";
-import { useGetChartQuery } from "../module/chart/hooks/useGetCandleQuery";
-import { mapChartOhlcModelToEntity } from "../module/chart/mapper/chartMapper";
-import NavigationBar from "../components/shared/NavigationBar";
-import MartketStatItem from "../components/detail/MartketStatItem";
-import PercentageBadge from "../components/shared/PercentageBadge";
-import useTicker from "../module/ticker/hooks/useTicker";
-import Separator from "../components/shared/Separator";
-import OrderBook from "../components/detail/OrderBookList";
-
+import { useMemo } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { formatMoney } from '../lib/util';
+import { type RootStackParams } from '../lib/type';
+import { useGetCoinsQuery } from '../module/coins/hooks/useGetCoinsQuery';
+import { AppConfig } from '../lib/config';
+import { useGetChartQuery } from '../module/chart/hooks/useGetCandleQuery';
+import { mapChartOhlcModelToEntity } from '../module/chart/mapper/chartMapper';
+import NavigationBar from '../components/shared/NavigationBar';
+import MartketStatItem from '../components/detail/MartketStatItem';
+import PercentageBadge from '../components/shared/PercentageBadge';
+import useTicker from '../module/ticker/hooks/useTicker';
+import Separator from '../components/shared/Separator';
+import OrderBook from '../components/detail/OrderBookList';
 
 export type DetailCoinScreenProps = NativeStackScreenProps<
-  RootStackParams,
-  'DetailCoin'
+RootStackParams,
+'DetailCoin'
 >;
 
 export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
-  const { name, id, symbol } = route.params
+  const { name, id, symbol } = route.params;
 
   const getCoinQuery = useGetCoinsQuery({
     currency: AppConfig.currency,
-    ids: id
-  })
+    ids: id,
+  });
 
   const getChartQuery = useGetChartQuery({
     currency: AppConfig.currency,
-    id: id,
-    days: 1
-  })
+    id,
+    days: 1,
+  });
 
   const { socketTicker } = useTicker({
     currency: AppConfig.currencyAlias,
-    symbol: symbol,
+    symbol,
     isEnabled: getCoinQuery.isFetched,
-  })
+  });
 
-  const coin = getCoinQuery?.data?.[0]
+  const coin = getCoinQuery?.data?.[0];
 
-  const charts = useMemo(() => {
-    return getChartQuery.data?.map(mapChartOhlcModelToEntity) ?? []
-  }, [getChartQuery.data])
+  const charts = useMemo(() => getChartQuery.data?.map(mapChartOhlcModelToEntity) ?? [], [getChartQuery.data]);
 
-  const pricePercentage = socketTicker?.priceChangePercent !== undefined ? Number(socketTicker?.priceChangePercent ?? 0) : coin?.price_change_percentage_24h ?? 0
-  const openPrice = socketTicker?.open !== undefined ? Number(socketTicker?.open ?? 0) : coin?.current_price ?? 0
+  const pricePercentage = socketTicker?.priceChangePercent !== undefined ? Number(socketTicker?.priceChangePercent ?? 0) : coin?.price_change_percentage_24h ?? 0;
+  const openPrice = socketTicker?.open !== undefined ? Number(socketTicker?.open ?? 0) : coin?.current_price ?? 0;
 
   return (
     <VStack flex={1} backgroundColor="$white">
@@ -63,8 +62,11 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
           <ScrollView flex={1}>
             <HStack padding="$4" space="sm" alignItems="center">
               <Image source={{ uri: coin?.image }} size="xs" alt={coin?.name} />
-              <VStack >
-                <Text color="$coolGray600" size="sm">Harga {name}</Text>
+              <VStack>
+                <Text color="$coolGray600" size="sm">
+                  Harga
+                  {name}
+                </Text>
                 <HStack alignItems="center" space="sm">
                   <Text color="$black" size="xl" bold>{formatMoney(openPrice)}</Text>
                   <PercentageBadge percentage={pricePercentage} />
@@ -74,7 +76,7 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
             <Separator />
             <VStack backgroundColor="$white" paddingVertical="$4">
               {getChartQuery.isLoading ? <ActivityIndicator /> : (
-                <CandlestickChart.Provider data={charts} >
+                <CandlestickChart.Provider data={charts}>
                   <CandlestickChart>
                     <CandlestickChart.Candles />
                   </CandlestickChart>
@@ -110,9 +112,8 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
             <Separator />
             <OrderBook symbol={symbol} />
           </ScrollView>
-        )
-        }
-      </VStack >
+        )}
+      </VStack>
       {coin !== undefined ? (
         <VStack>
           <Separator />
@@ -122,7 +123,9 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
                 bold
                 size="xs"
                 color="$black"
-                textAlign="center">{formatMoney(Number(socketTicker?.bestAsk ?? 0))}
+                textAlign="center"
+              >
+                {formatMoney(Number(socketTicker?.bestAsk ?? 0))}
               </Text>
               <Button
                 size="md"
@@ -137,7 +140,9 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
                 bold
                 size="xs"
                 color="$black"
-                textAlign="center">{formatMoney(Number(socketTicker?.bestBid ?? 0))}
+                textAlign="center"
+              >
+                {formatMoney(Number(socketTicker?.bestBid ?? 0))}
               </Text>
               <Button
                 size="md"
@@ -150,6 +155,6 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
           </HStack>
         </VStack>
       ) : null}
-    </VStack >
-  )
+    </VStack>
+  );
 }

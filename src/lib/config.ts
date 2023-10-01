@@ -1,4 +1,4 @@
 export const AppConfig = {
-  currency: 'usd',
-  currencyAlias: 'usdt'
-}
+  currency: 'idr',
+  currencyAlias: 'bidr',
+};

@@ -1,4 +1,4 @@
-import * as rt from 'runtypes'
+import * as rt from 'runtypes';
 
 export const SocketTickerDataSchema = rt.Record({
   e: rt.String,
@@ -24,9 +24,9 @@ export const SocketTickerDataSchema = rt.Record({
   F: rt.Number,
   L: rt.Number,
   n: rt.Number,
-})
+});
 
-export type SocketTickerDataEntity = rt.Static<typeof SocketTickerDataSchema>
+export type SocketTickerDataEntity = rt.Static<typeof SocketTickerDataSchema>;
 
 export const TickerDataSchema = rt.Record({
   eventType: rt.String,
@@ -52,7 +52,6 @@ export const TickerDataSchema = rt.Record({
   firstTradeId: rt.Number,
   lastTradeId: rt.Number,
   totalTrades: rt.Number,
-})
+});
 
-export type TickerDataEntity = rt.Static<typeof TickerDataSchema>
-
+export type TickerDataEntity = rt.Static<typeof TickerDataSchema>;
