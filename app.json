@@ -28,6 +28,12 @@
     },
     "experiments": {
       "tsconfigPaths": false
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "adb9671e-0aef-450f-a52e-727cf535b823"
+      }
+    },
+    "owner": "ialdyc"
   }
 }
