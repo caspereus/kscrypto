@@ -9,7 +9,7 @@ export type DepthSocketDataEntity = rt.Static<typeof DepthSocketDataSchema>;
 
 export const DepthItemSchema = rt.Record({
   priceLevel: rt.Number,
-  quantity: rt.Number,
+  quantity: rt.String,
 });
 
 export const DepthDataSchema = rt.Record({

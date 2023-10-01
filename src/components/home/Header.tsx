@@ -12,7 +12,7 @@ export default function Header(props: HeaderProps) {
     <VStack>
       <HStack padding="$4" backgroundColor="$white" justifyContent="space-between" {...props}>
         <Image
-          source={require('../../../assets/logo.webp')}
+          source={require('../../../assets/logo.png')}
           height={20}
           width={80}
           resizeMode="cover"

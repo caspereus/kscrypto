@@ -7,7 +7,9 @@ export interface UseGetCoinsQueryProps {
   currency?: string;
 }
 
-export const useGetCoinsQuery = ({ ids, currency = AppConfig.currency }: UseGetCoinsQueryProps) => useQuery({
-  queryKey: ['get-coins', ids, currency],
-  queryFn: async () => getCoinList({ currency, ids }),
-});
+export const useGetCoinsQuery = ({ ids, currency = AppConfig.currency }: UseGetCoinsQueryProps) => {
+  return useQuery({
+    queryKey: ['get-coins', ids, currency],
+    queryFn: async () => getCoinList({ currency, ids }),
+  })
+};

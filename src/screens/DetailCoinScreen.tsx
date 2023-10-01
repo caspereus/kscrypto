@@ -18,6 +18,7 @@ import useTicker from '../module/ticker/hooks/useTicker';
 import Separator from '../components/shared/Separator';
 import OrderBook from '../components/detail/OrderBookList';
 import { Share, Star } from 'lucide-react-native';
+import ErrorModal from '../components/shared/ErrorModal';
 
 export type DetailCoinScreenProps = NativeStackScreenProps<
   RootStackParams,
@@ -39,8 +40,6 @@ const StarIcon = styled(Star, {
 
 export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
   const { name, id, symbol } = route.params;
-
-  const toast = useToast();
 
   const getCoinQuery = useGetCoinsQuery({
     currency: AppConfig.currency,
@@ -67,123 +66,129 @@ export default function DetailCoinScreen({ route }: DetailCoinScreenProps) {
   const openPrice = socketTicker?.open !== undefined ? Number(socketTicker?.open ?? 0) : coin?.current_price ?? 0;
 
   return (
-    <VStack flex={1} backgroundColor="$white">
-      <NavigationBar
-        title={name}
-        rightComponent={
-          <HStack space="sm">
-            <ShareIcon />
-            <StarIcon />
-          </HStack>
-        }
-      />
-      <VStack flex={1}>
-        {getCoinQuery.isLoading ? (
-          <VStack padding="$4">
-            <ActivityIndicator />
-          </VStack>
-        ) : (
-          <ScrollView flex={1}>
-            <HStack padding="$4" space="sm" alignItems="center">
-              <Image source={{ uri: coin?.image }} size="xs" alt={coin?.name} />
-              <VStack>
-                <Text color="$coolGray600" size="sm">
-                  Harga
-                  {name}
+    <>
+      <VStack flex={1} backgroundColor="$white">
+        <NavigationBar
+          title={name}
+          rightComponent={
+            <HStack space="sm">
+              <ShareIcon />
+              <StarIcon />
+            </HStack>
+          }
+        />
+        <VStack flex={1}>
+          {getCoinQuery.isLoading ? (
+            <VStack padding="$4">
+              <ActivityIndicator />
+            </VStack>
+          ) : (
+            <ScrollView flex={1}>
+              <HStack padding="$4" space="sm" alignItems="center">
+                <Image source={{ uri: coin?.image }} size="xs" alt={coin?.name} />
+                <VStack>
+                  <Text color="$coolGray600" size="sm">
+                    Harga
+                    {name}
+                  </Text>
+                  <HStack alignItems="center" space="sm">
+                    <Text color="$black" size="xl" bold>{formatMoney(openPrice)}</Text>
+                    <PercentageBadge percentage={pricePercentage} />
+                  </HStack>
+                </VStack>
+              </HStack>
+              <Separator />
+              <VStack backgroundColor="$white" paddingVertical="$4">
+                <Text
+                  bold
+                  color="$black"
+                  paddingHorizontal="$4">{name} Daily Chart
                 </Text>
-                <HStack alignItems="center" space="sm">
-                  <Text color="$black" size="xl" bold>{formatMoney(openPrice)}</Text>
-                  <PercentageBadge percentage={pricePercentage} />
-                </HStack>
+                {getChartQuery.isLoading ? <ActivityIndicator /> : (
+                  <CandlestickChart.Provider data={charts}>
+                    <CandlestickChart>
+                      <CandlestickChart.Candles />
+                    </CandlestickChart>
+                  </CandlestickChart.Provider>
+                )}
+              </VStack>
+              <Separator />
+              <VStack padding="$4" backgroundColor="$white" space="sm">
+                <Text color="$black" size="md" bold>Market Stats</Text>
+                <VStack space="sm">
+                  <MartketStatItem
+                    name="Market Capitalization"
+                    value={coin?.market_cap ?? 0}
+                  />
+                  <MartketStatItem
+                    name="Full Diluted Valuation"
+                    value={coin?.fully_diluted_valuation ?? 0}
+                  />
+                  <MartketStatItem
+                    name="Circulating Supply"
+                    value={coin?.circulating_supply ?? 0}
+                  />
+                  <MartketStatItem
+                    name="Maximum Supply"
+                    value={coin?.max_supply ?? 0}
+                  />
+                  <MartketStatItem
+                    name="Total Volume"
+                    value={coin?.total_volume ?? 0}
+                  />
+                </VStack>
+              </VStack>
+              <Separator />
+              <OrderBook symbol={symbol} />
+            </ScrollView>
+          )}
+        </VStack>
+        {coin !== undefined ? (
+          <VStack>
+            <Separator />
+            <HStack backgroundColor="$white" p="$4" space="md">
+              <VStack space="sm" flex={1}>
+                <Text
+                  bold
+                  size="xs"
+                  color="$black"
+                  textAlign="center"
+                >
+                  {formatMoney(Number(socketTicker?.bestAsk ?? 0))}
+                </Text>
+                <Button
+                  size="md"
+                  variant="solid"
+                  action="primary"
+                >
+                  <ButtonText disabled={socketTicker === undefined}>Beli</ButtonText>
+                </Button>
+              </VStack>
+              <VStack space="sm" flex={1}>
+                <Text
+                  bold
+                  size="xs"
+                  color="$black"
+                  textAlign="center"
+                >
+                  {formatMoney(Number(socketTicker?.bestBid ?? 0))}
+                </Text>
+                <Button
+                  size="md"
+                  variant="solid"
+                  action="negative"
+                >
+                  <ButtonText disabled={socketTicker === undefined}>Jual</ButtonText>
+                </Button>
               </VStack>
             </HStack>
-            <Separator />
-            <VStack backgroundColor="$white" paddingVertical="$4">
-              <Text
-                bold
-                color="$black"
-                paddingHorizontal="$4">{name} Daily Chart
-              </Text>
-              {getChartQuery.isLoading ? <ActivityIndicator /> : (
-                <CandlestickChart.Provider data={charts}>
-                  <CandlestickChart>
-                    <CandlestickChart.Candles />
-                  </CandlestickChart>
-                </CandlestickChart.Provider>
-              )}
-            </VStack>
-            <Separator />
-            <VStack padding="$4" backgroundColor="$white" space="sm">
-              <Text color="$black" size="md" bold>Market Stats</Text>
-              <VStack space="sm">
-                <MartketStatItem
-                  name="Market Capitalization"
-                  value={coin?.market_cap ?? 0}
-                />
-                <MartketStatItem
-                  name="Full Diluted Valuation"
-                  value={coin?.fully_diluted_valuation ?? 0}
-                />
-                <MartketStatItem
-                  name="Circulating Supply"
-                  value={coin?.circulating_supply ?? 0}
-                />
-                <MartketStatItem
-                  name="Maximum Supply"
-                  value={coin?.max_supply ?? 0}
-                />
-                <MartketStatItem
-                  name="Total Volume"
-                  value={coin?.total_volume ?? 0}
-                />
-              </VStack>
-            </VStack>
-            <Separator />
-            <OrderBook symbol={symbol} />
-          </ScrollView>
-        )}
+          </VStack>
+        ) : null}
       </VStack>
-      {coin !== undefined ? (
-        <VStack>
-          <Separator />
-          <HStack backgroundColor="$white" p="$4" space="md">
-            <VStack space="sm" flex={1}>
-              <Text
-                bold
-                size="xs"
-                color="$black"
-                textAlign="center"
-              >
-                {formatMoney(Number(socketTicker?.bestAsk ?? 0))}
-              </Text>
-              <Button
-                size="md"
-                variant="solid"
-                action="primary"
-              >
-                <ButtonText disabled={socketTicker === undefined}>Beli</ButtonText>
-              </Button>
-            </VStack>
-            <VStack space="sm" flex={1}>
-              <Text
-                bold
-                size="xs"
-                color="$black"
-                textAlign="center"
-              >
-                {formatMoney(Number(socketTicker?.bestBid ?? 0))}
-              </Text>
-              <Button
-                size="md"
-                variant="solid"
-                action="negative"
-              >
-                <ButtonText disabled={socketTicker === undefined}>Jual</ButtonText>
-              </Button>
-            </VStack>
-          </HStack>
-        </VStack>
-      ) : null}
-    </VStack>
+      <ErrorModal
+        isOpen={getCoinQuery.isError}
+        onPressRefresh={() => getCoinQuery.refetch()}
+      />
+    </>
   );
 }

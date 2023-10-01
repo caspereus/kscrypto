@@ -7,6 +7,8 @@ import Header from '../components/home/Header';
 import { useGetCoinsQuery } from '../module/coins/hooks/useGetCoinsQuery';
 import { type CoinEntity } from '../module/coins/entities/coinEntities';
 import { AppConfig } from '../lib/config';
+import { AxiosError } from 'axios';
+import ErrorModal from '../components/shared/ErrorModal';
 
 export default function HomeScreen() {
   const getCoinQuery = useGetCoinsQuery({ currency: AppConfig.currency });
@@ -55,20 +57,26 @@ export default function HomeScreen() {
   );
 
   return (
-    <VStack flex={1} backgroundColor="$white">
-      <VStack>
-        <Header />
-      </VStack>
-      {getCoinQuery.isLoading || getCoinQuery.isError ? (
-        <VStack flex={1} justifyContent="center" alignItems="center">
-          <ActivityIndicator />
+    <>
+      <VStack flex={1} backgroundColor="$white">
+        <VStack>
+          <Header />
         </VStack>
-      ) : (
-        <CoinList
-          data={coins}
-          ListFooterComponent={renderFooterComponent}
-        />
-      )}
-    </VStack>
+        {getCoinQuery.isLoading || getCoinQuery.isError ? (
+          <VStack flex={1} justifyContent="center" alignItems="center">
+            <ActivityIndicator />
+          </VStack>
+        ) : (
+          <CoinList
+            data={coins}
+            ListFooterComponent={renderFooterComponent}
+          />
+        )}
+      </VStack>
+      <ErrorModal
+        isOpen={getCoinQuery.isError}
+        onPressRefresh={() => getCoinQuery.refetch()}
+      />
+    </>
   );
 }
