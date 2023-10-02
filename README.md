@@ -37,7 +37,7 @@ The KSCrypto App is built with several packages and libraries to enhance its fun
 
 - **Lucide Icon:** A collection of high-quality SVG icons.
 
-- **Shopify Flashlist:** A library or component used for flash notifications.
+- **Shopify Flashlist:** A Flatlist alternatives
 
 ## Previews
 Here are some previews of the KSCrypto App:
